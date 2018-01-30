@@ -2,14 +2,16 @@ package main
 
 import (
 	"github.com/fabioberger/chrome"
+	. "github.com/siongui/godom"
 )
 
 func main() {
 	c := chrome.NewChrome()
-	c.BrowserAction.OnClicked(func(tab chrome.Tab) {
-		o := chrome.Object{
-			"file": "cc.js",
-		}
-		c.Tabs.ExecuteScript(tab.Id, o, nil)
+	queryInfo := chrome.Object{
+		"active": true,
+	}
+	c.Tabs.Query(queryInfo, func(tabs []chrome.Tab) {
+		tab := tabs[0]
+		Document.Call("write", tab.Url)
 	})
 }
