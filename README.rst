@@ -42,7 +42,7 @@ References
 
 .. [1] `GopherJS - A compiler from Go to JavaScript <http://www.gopherjs.org/>`_
        (`GitHub <https://github.com/gopherjs/gopherjs>`__,
-       `GopherJS Playground <http://www.gopherjs.org/playground/>`_,
+       `GopherJS Playground <https://gopherjs.github.io/playground/>`_,
        |godoc|)
 
 .. [2] | `GitHub - fabioberger/chrome: GopherJS Bindings for Chrome <https://github.com/fabioberger/chrome>`_

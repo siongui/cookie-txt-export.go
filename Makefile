@@ -8,12 +8,11 @@ export PATH := $(GOROOT)/bin:$(GOPATH)/bin:$(PATH)
 
 build: fmt
 	@echo "\033[92mCompiling Go to JavaScript ...\033[0m"
-	gopherjs build extension/click.go -o extension/click.js
-	gopherjs build extension/cc.go -o extension/cc.js
+	gopherjs build extension/go/popup.go -o extension/popup.js
 
 fmt:
 	@echo "\033[92mGo fmt source code...\033[0m"
-	@go fmt extension/*.go
+	@go fmt extension/go/*.go
 
 install:
 	@echo "\033[92mInstalling GopherJS ...\033[0m"
