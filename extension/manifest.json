@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+
+  "name": "Gojianfan",
+  "description": "Traditional and Simplified Chinese conversion",
+  "version": "0.1",
+  "options_page": "options.html",
+
+  "browser_action": {
+    "default_title": "Chinese conversion",
+    "default_icon": "icon.png"
+  },
+  "background": {
+    "scripts": ["click.js"],
+    "persistent": false
+  },
+  "permissions": [
+    "activeTab"
+  ]
+}
