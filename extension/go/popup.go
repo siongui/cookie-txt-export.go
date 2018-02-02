@@ -3,7 +3,19 @@ package main
 import (
 	"github.com/fabioberger/chrome"
 	. "github.com/siongui/godom"
+	"net/url"
+	"strings"
 )
+
+func GetDomain(sUrl string) (domain string, err error) {
+	u, err := url.Parse(sUrl)
+	if err != nil {
+		return
+	}
+	parts := strings.Split(u.Hostname(), ".")
+	domain = parts[len(parts)-2] + "." + parts[len(parts)-1]
+	return
+}
 
 func main() {
 	c := chrome.NewChrome()
@@ -13,6 +25,10 @@ func main() {
 	}
 	c.Tabs.Query(queryInfo, func(tabs []chrome.Tab) {
 		tab := tabs[0]
-		Document.Call("write", tab.Url)
+		domain, _ := GetDomain(tab.Url)
+
+		Document.Write("<pre>\n")
+		Document.Write("# Cookies for domains related to <b>" + domain + "</b>.\n")
+		Document.Write("</pre>\n")
 	})
 }
