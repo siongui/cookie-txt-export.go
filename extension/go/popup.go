@@ -17,6 +17,15 @@ func GetDomain(sUrl string) (domain string, err error) {
 	return
 }
 
+func exportCookies(cookies []chrome.Cookie, domain string) {
+	for _, cookie := range cookies {
+		if strings.Contains(cookie.Domain, domain) {
+			Document.Write(cookie.Domain)
+			Document.Write("\n")
+		}
+	}
+}
+
 func main() {
 	c := chrome.NewChrome()
 	queryInfo := chrome.Object{
@@ -27,8 +36,15 @@ func main() {
 		tab := tabs[0]
 		domain, _ := GetDomain(tab.Url)
 
-		Document.Write("<pre>\n")
-		Document.Write("# Cookies for domains related to <b>" + domain + "</b>.\n")
-		Document.Write("</pre>\n")
+		c.Cookies.GetAll(chrome.Object{}, func(cookies []chrome.Cookie) {
+			Document.Write("<pre>\n")
+			Document.Write("# Cookies for domains related to <b>" + domain + "</b>.\n")
+			Document.Write("# This content may be pasted into a cookies.txt file and used by wget\n")
+			Document.Write("# Example:  wget -x <b>--load-cookies cookies.txt</b> " + tab.Url + "\n")
+			Document.Write("#\n")
+			exportCookies(cookies, domain)
+			Document.Write("</pre>\n")
+		})
+
 	})
 }
