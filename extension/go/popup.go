@@ -21,6 +21,42 @@ func exportCookies(cookies []chrome.Cookie, domain string) {
 	for _, cookie := range cookies {
 		if strings.Contains(cookie.Domain, domain) {
 			Document.Write(cookie.Domain)
+			Document.Write("\t")
+
+			if cookie.HostOnly {
+				Document.Write("FALSE")
+			} else {
+				Document.Write("TRUE")
+			}
+			Document.Write("\t")
+
+			Document.Write(cookie.Path)
+			Document.Write("\t")
+
+			if cookie.Secure {
+				Document.Write("TRUE")
+			} else {
+				Document.Write("FALSE")
+			}
+			Document.Write("\t")
+
+			// In the code of JS version:
+			//
+			//   document.write(cookie.expirationDate ? cookie.expirationDate : "0");
+			//
+			// but cookie.ExpirationDate is of type int64
+			// so we use GopherJS Get directly
+			if cookie.Get("expirationDate") == nil {
+				Document.Write("0")
+			} else {
+				Document.Call("write", cookie.ExpirationDate)
+			}
+			Document.Write("\t")
+
+			Document.Write(cookie.Name)
+			Document.Write("\t")
+
+			Document.Write(cookie.Value)
 			Document.Write("\n")
 		}
 	}
